@@ -89,7 +89,7 @@ class RsiAlphaModel(AlphaModel):
         history = algorithm.History(addedSymbols, self.period, self.resolution)
         index = history.index.levels[0]
         pd.set_option('display.max_rows', len(index))
-        algorithm.Log(index.to_string())
+        algorithm.Log(index)
         for symbol in addedSymbols:
             rsi = algorithm.RSI(symbol, self.period, MovingAverageType.Wilders, self.resolution)
 

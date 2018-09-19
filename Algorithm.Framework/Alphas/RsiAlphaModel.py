@@ -21,6 +21,7 @@ from QuantConnect.Indicators import *
 from QuantConnect.Algorithm.Framework.Alphas import *
 from datetime import timedelta
 from enum import Enum
+import pandas as pd
 
 class RsiAlphaModel(AlphaModel):
     '''Uses Wilder's RSI to create insights.
@@ -86,7 +87,9 @@ class RsiAlphaModel(AlphaModel):
         if len(addedSymbols) == 0: return
 
         history = algorithm.History(addedSymbols, self.period, self.resolution)
-        algorithm.Log(history.index.levels[0])
+        index = history.index.levels[0]
+        pd.set_option('display.max_rows', len(index))
+        algorithm.Log(index.to_string())
         for symbol in addedSymbols:
             rsi = algorithm.RSI(symbol, self.period, MovingAverageType.Wilders, self.resolution)
 

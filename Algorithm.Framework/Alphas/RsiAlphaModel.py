@@ -87,14 +87,17 @@ class RsiAlphaModel(AlphaModel):
         if len(addedSymbols) == 0: return
 
         history = algorithm.History(addedSymbols, self.period, self.resolution)
-        index = history.index.levels[0]
-        pd.set_option('display.max_rows', len(index))
-        algorithm.Log(index)
+        for item in history.index.levels[0]:
+            algorithm.Log(item)
         for symbol in addedSymbols:
             rsi = algorithm.RSI(symbol, self.period, MovingAverageType.Wilders, self.resolution)
 
             if not history.empty:
                 ticker = SymbolCache.GetTicker(symbol)
+                
+                if ticker not in history.index.levels[0]:
+                    continue
+
                 for tuple in history.loc[ticker].itertuples():
                     rsi.Update(tuple.Index, tuple.close)
 

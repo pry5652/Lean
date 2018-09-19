@@ -86,7 +86,7 @@ class RsiAlphaModel(AlphaModel):
         if len(addedSymbols) == 0: return
 
         history = algorithm.History(addedSymbols, self.period, self.resolution)
-        self.Log(history.index.levels[0])
+        algorithm.Log(history.index.levels[0])
         for symbol in addedSymbols:
             rsi = algorithm.RSI(symbol, self.period, MovingAverageType.Wilders, self.resolution)
 
